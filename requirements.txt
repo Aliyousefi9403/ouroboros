@@ -1,0 +1,3 @@
+numpy>=2.0
+torch>=2.2        # only needed to train or run the full-board agent in Python
+pytest>=8.0
