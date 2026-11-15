@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ouroboros — a Snake AI that learns when the food is a trap</title>
+<meta name="description" content="Challenge a Snake AI, freeze the game, rewind it, and get an exhaustive proof of whether your move was the fatal one.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="./">
+    <svg viewBox="0 0 40 40" width="30" height="30" aria-hidden="true">
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd666"/><stop offset="1" stop-color="#10b981"/></linearGradient></defs>
+      <path d="M20 5a15 15 0 1 0 14.2 10.2" fill="none" stroke="url(#lg)" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="33" cy="12.5" r="3.6" fill="#ffd666"/>
+    </svg>
+    <span>Ouroboros</span>
+  </a>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="arena" aria-selected="true">Arena</button>
+    <button role="tab" data-tab="puzzles" aria-selected="false">Puzzles</button>
+    <button role="tab" data-tab="experiment" aria-selected="false">Experiment</button>
+    <button role="tab" data-tab="about" aria-selected="false">How it works</button>
+  </nav>
+  <a class="gh" href="https://github.com/Aliyousefi9403/ouroboros">GitHub ↗</a>
+</header>
+
+<main>
+<!-- ============================ ARENA ============================ -->
+<section id="arena" class="view active">
+  <div class="hero">
+    <h1>The snake changes the maze every time it moves.</h1>
+    <p>Its body can seal an exit; its retreating tail can open one. Sometimes the right move is <em>away</em> from the food.
+       Take the controls whenever you like, then rewind and find out, with proof, whether you made the fatal move.</p>
+  </div>
+
+  <div class="arena-grid">
+    <div class="stage">
+      <div class="board-wrap">
+        <canvas id="board" aria-label="Snake board"></canvas>
+        <div id="banner" class="banner" hidden></div>
+      </div>
+      <div class="hud">
+        <div class="stat"><span>Score</span><b id="score">0</b></div>
+        <div class="stat"><span>Move</span><b id="move">0</b></div>
+        <div class="stat"><span>Driver</span><b id="driverName">Planner</b></div>
+      </div>
+      <input id="timeline" class="timeline" type="range" min="0" max="0" value="0" aria-label="Timeline: drag to rewind">
+      <div class="transport">
+        <button id="back" title="Step back (,)">◀</button>
+        <button id="playPause" class="primary" title="Play / pause (space)">Pause</button>
+        <button id="fwd" title="Step forward (.)">▶</button>
+        <label class="speed">Speed <input id="speed" type="range" min="2" max="40" value="10"></label>
+        <button id="newGame" title="New game">New game</button>
+        <button id="share" title="Copy a link to this exact position">Copy challenge link</button>
+      </div>
+      <p class="keys"><kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> take over and steer · <kbd>space</kbd> freeze · while frozen, each arrow plays exactly one move</p>
+    </div>
+
+    <aside class="side">
+      <div class="card">
+        <h2>Who is driving</h2>
+        <div class="seg" id="drivers">
+          <button data-driver="human">You</button>
+          <button data-driver="reflex">Reflex<small>11 inputs</small></button>
+          <button data-driver="board">Full board<small>no lookahead</small></button>
+          <button data-driver="planner" class="on">Planner<small>board + search</small></button>
+        </div>
+        <label class="budget" id="budgetRow">Search budget
+          <input id="budget" type="range" min="0" max="5" step="1" value="2">
+          <b id="budgetVal">60</b><span>simulated moves per decision</span>
+        </label>
+      </div>
+
+      <div class="card">
+        <h2>Three moves, four opinions</h2>
+        <table class="mind" id="mind">
+          <thead><tr><th></th><th>Left</th><th>Straight</th><th>Right</th></tr></thead>
+          <tbody>
+            <tr data-row="reflex"><th>Reflex Q</th><td></td><td></td><td></td></tr>
+            <tr data-row="board"><th>Full-board Q</th><td></td><td></td><td></td></tr>
+            <tr data-row="planner"><th>Planner</th><td></td><td></td><td></td></tr>
+            <tr data-row="proof"><th>Proof</th><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+        <p class="note" id="mindNote">The proof row enumerates every continuation of each move with the real game engine.</p>
+      </div>
+
+      <div class="card">
+        <h2>What the reflex agent sees</h2>
+        <div class="bits" id="bits"></div>
+        <p class="note">Eleven yes/no answers. Everything else on the board is invisible to it.</p>
+      </div>
+
+      <div class="card story" id="story" aria-live="polite">
+        <h2>Replay analysis</h2>
+        <div id="storyBody"><p class="note">Take over, play until something goes wrong, and this panel will tell you what happened.</p></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============================ PUZZLES ============================ -->
+<section id="puzzles" class="view">
+  <div class="hero">
+    <h1>Same eleven numbers. Different fates.</h1>
+    <p>Each pair of boards below produces an <em>identical</em> observation for the 11-input agent, yet no single move survives both.
+       Every verdict is an exhaustive proof over <span id="pzLimit">16</span> moves. Pick a move for each board.</p>
+  </div>
+  <div class="pz-score" id="pzScore"></div>
+  <div id="pairs" class="pairs"></div>
+
+  <div class="hero sub">
+    <h1>The food is a trap.</h1>
+    <p>Positions mined from real games where the reflex agent's move is provably fatal and another move provably is not. Open one and try it yourself.</p>
+  </div>
+  <div id="traps" class="traps"></div>
+</section>
+
+<!-- ============================ EXPERIMENT ============================ -->
+<section id="experiment" class="view">
+  <div class="hero">
+    <h1>Seeing more, or thinking further?</h1>
+    <p>When Snake makes a better decision, how much comes from seeing more of the board, and how much from looking further ahead?
+       Every agent played the same held-out games: same starting position, same food sequence, never seen in training.</p>
+  </div>
+  <div id="expBody"><p class="note">Loading results…</p></div>
+</section>
+
+<!-- ============================ ABOUT ============================ -->
+<section id="about" class="view">
+  <div class="hero"><h1>How it works</h1></div>
+  <div class="about-grid">
+    <article class="card"><h2>A neural network from scratch</h2>
+      <p>The reflex agent is a Q-network written in plain NumPy: forward pass, hand-derived backpropagation, Huber loss and Adam, with gradients checked against finite differences. It sees the 11 inputs of the classic tutorial agent.</p></article>
+    <article class="card"><h2>A full-board agent</h2>
+      <p>A small convolutional Q-network reads the whole grid, rotated so the snake always faces up. The body is encoded in head-to-tail order as <em>moves until this square clears</em>, so the network can tell which walls are about to open.</p></article>
+    <article class="card"><h2>A planner</h2>
+      <p>Given a fixed budget of simulated moves, a beam search plays out legal futures with the real engine and ranks the frontier with the network's own value estimate. Slide the budget and watch its decisions change.</p></article>
+    <article class="card"><h2>A proof engine</h2>
+      <p>For any position, every continuation of a move is enumerated. A move is <b class="bad">doomed</b> only when all of them collide, and <b class="good">survives</b> only when a concrete escape line exists. If the search runs out, it says so. A bad outcome alone never counts as proof of a bad move.</p></article>
+    <article class="card"><h2>A puzzle generator</h2>
+      <p>Thousands of positions are grouped by their 11-input observation. Pairs with identical observations but disjoint sets of surviving moves become two-board puzzles: a precise picture of the information the reflex agent is missing.</p></article>
+    <article class="card"><h2>A deterministic replay engine</h2>
+      <p>Food comes from a seeded 32-bit stream that is part of the game state, and the Python and JavaScript engines agree bit for bit. A seed and a list of moves reproduce any game exactly, so every position can be rewound, branched and shared as a link.</p></article>
+  </div>
+</section>
+</main>
+
+<footer>Built by Ali Yousefi · NumPy, PyTorch and plain JavaScript · no frameworks, runs entirely in your browser</footer>
+<div id="tip" class="tip" hidden></div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
