@@ -278,12 +278,28 @@ addEventListener('keydown', (e) => {
   if (key === '.') return goto(G.cursor + 1);
   if (!(key in KEYS)) return;
   e.preventDefault();
+  steer(KEYS[key]);
+});
+
+/** One steering input (absolute direction) from the keyboard or a swipe. */
+function steer(abs) {
   if (!cur().alive) return;
   if (G.driver !== 'human' || G.script) { takeOver(); return; }
   if (G.fork == null || G.cursor < G.fork) G.fork = G.cursor;
-  if (G.playing) { if (G.queue.length < 2) G.queue.push(KEYS[key]); return; }
-  const rel = E.relativeAction(cur().dir, KEYS[key]);
+  if (G.playing) { if (G.queue.length < 2) G.queue.push(abs); return; }
+  const rel = E.relativeAction(cur().dir, abs);
   if (rel >= 0) apply(rel, 'human');
+}
+
+// Touch: swipe on the board to steer, tap to freeze or resume.
+let swipe = null;
+canvas.addEventListener('pointerdown', (e) => { swipe = [e.clientX, e.clientY]; });
+canvas.addEventListener('pointerup', (e) => {
+  if (!swipe) return;
+  const dx = e.clientX - swipe[0], dy = e.clientY - swipe[1];
+  swipe = null;
+  if (Math.hypot(dx, dy) < 18) { if (cur().alive) { G.playing = !G.playing; refresh(); } return; }
+  steer(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0));
 });
 $('#playPause').onclick = () => { if (cur().alive) { G.playing = !G.playing; refresh(); } };
 $('#back').onclick = () => goto(G.cursor - 1);

@@ -1,0 +1,52 @@
+{
+ "name": "reflex",
+ "kind": "mlp",
+ "inputs": 11,
+ "tensors": [
+  {
+   "name": "p0",
+   "shape": [
+    11,
+    128
+   ],
+   "offset": 0
+  },
+  {
+   "name": "p1",
+   "shape": [
+    128
+   ],
+   "offset": 1408
+  },
+  {
+   "name": "p2",
+   "shape": [
+    128,
+    128
+   ],
+   "offset": 1536
+  },
+  {
+   "name": "p3",
+   "shape": [
+    128
+   ],
+   "offset": 17920
+  },
+  {
+   "name": "p4",
+   "shape": [
+    128,
+    3
+   ],
+   "offset": 18048
+  },
+  {
+   "name": "p5",
+   "shape": [
+    3
+   ],
+   "offset": 18432
+  }
+ ]
+}

@@ -1,0 +1,88 @@
+{
+ "name": "board",
+ "kind": "cnn",
+ "size": 10,
+ "tensors": [
+  {
+   "name": "0_weight",
+   "shape": [
+    16,
+    5,
+    3,
+    3
+   ],
+   "offset": 0
+  },
+  {
+   "name": "0_bias",
+   "shape": [
+    16
+   ],
+   "offset": 720
+  },
+  {
+   "name": "2_weight",
+   "shape": [
+    32,
+    16,
+    3,
+    3
+   ],
+   "offset": 736
+  },
+  {
+   "name": "2_bias",
+   "shape": [
+    32
+   ],
+   "offset": 5344
+  },
+  {
+   "name": "4_weight",
+   "shape": [
+    32,
+    32,
+    3,
+    3
+   ],
+   "offset": 5376
+  },
+  {
+   "name": "4_bias",
+   "shape": [
+    32
+   ],
+   "offset": 14592
+  },
+  {
+   "name": "7_weight",
+   "shape": [
+    128,
+    2048
+   ],
+   "offset": 14624
+  },
+  {
+   "name": "7_bias",
+   "shape": [
+    128
+   ],
+   "offset": 276768
+  },
+  {
+   "name": "9_weight",
+   "shape": [
+    3,
+    128
+   ],
+   "offset": 276896
+  },
+  {
+   "name": "9_bias",
+   "shape": [
+    3
+   ],
+   "offset": 277280
+  }
+ ]
+}

@@ -47,7 +47,7 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 60px
 @media (max-width: 960px) { .arena-grid { grid-template-columns: 1fr; } }
 .board-wrap { position: relative; width: fit-content; max-width: 100%; border-radius: 18px; padding: 6px;
   background: linear-gradient(140deg, rgba(255,214,102,.5), rgba(16,185,129,.35) 45%, rgba(34,51,45,.9)); box-shadow: 0 30px 80px -30px rgba(16,185,129,.35); }
-.board-wrap canvas { display: block; border-radius: 14px; max-width: 100%; }
+.board-wrap canvas { touch-action: none; cursor: pointer; display: block; border-radius: 14px; max-width: 100%; }
 .board-wrap.dead { animation: shake .35s; background: linear-gradient(140deg, rgba(248,113,113,.8), rgba(34,51,45,.9)); }
 @keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 .banner { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: rgba(7,12,11,.86); border: 1px solid var(--line);
@@ -96,7 +96,9 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 60px
 .bit.on.danger { background: var(--bad); border-color: var(--bad); color: #2a0606; }
 .story p { margin: 0 0 10px; font-size: 15px; }
 .story .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.story { margin-top: 16px; }
 .story strong { color: var(--gold); }
+.story strong.good { color: var(--good); }
 
 /* puzzles */
 .pz-score { color: var(--ink2); font: 14px var(--mono); margin-bottom: 14px; min-height: 1.5em; }

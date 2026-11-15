@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Cpath d=%27M20 5a15 15 0 1 0 14.2 10.2%27 fill=%27none%27 stroke=%27%2310b981%27 stroke-width=%276%27 stroke-linecap=%27round%27/%3E%3Ccircle cx=%2733%27 cy=%2712.5%27 r=%274%27 fill=%27%23ffd666%27/%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -58,7 +59,11 @@
         <button id="newGame" title="New game">New game</button>
         <button id="share" title="Copy a link to this exact position">Copy challenge link</button>
       </div>
-      <p class="keys"><kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> take over and steer · <kbd>space</kbd> freeze · while frozen, each arrow plays exactly one move</p>
+      <p class="keys"><kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> take over and steer · <kbd>space</kbd> freeze · while frozen, each arrow plays exactly one move · on touch screens, swipe the board to steer and tap it to freeze</p>
+      <div class="card story" id="story" aria-live="polite">
+        <h2>Replay analysis</h2>
+        <div id="storyBody"><p class="note">Take over, play until something goes wrong, and this panel will tell you what happened.</p></div>
+      </div>
     </div>
 
     <aside class="side">
@@ -96,10 +101,6 @@
         <p class="note">Eleven yes/no answers. Everything else on the board is invisible to it.</p>
       </div>
 
-      <div class="card story" id="story" aria-live="polite">
-        <h2>Replay analysis</h2>
-        <div id="storyBody"><p class="note">Take over, play until something goes wrong, and this panel will tell you what happened.</p></div>
-      </div>
     </aside>
   </div>
 </section>
