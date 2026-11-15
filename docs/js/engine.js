@@ -78,10 +78,10 @@ export function relativeAction(dir, abs) {
 
 // ---- serialisation -------------------------------------------------------
 export function toJSON(st) {
-  return { size: st.size, ttl: Array.from(st.ttl), head: st.head, dir: st.dir, length: st.length, food: st.food, rng: st.rng };
+  return { size: st.size, ttl: Array.from(st.ttl), head: st.head, dir: st.dir, length: st.length, food: st.food, rng: st.rng, since: st.since };
 }
 export function fromJSON(o) {
-  return { size: o.size, ttl: Int16Array.from(o.ttl), head: o.head, dir: o.dir, length: o.length, food: o.food, rng: o.rng >>> 0, alive: true, won: false, since: 0 };
+  return { size: o.size, ttl: Int16Array.from(o.ttl), head: o.head, dir: o.dir, length: o.length, food: o.food, rng: o.rng >>> 0, alive: true, won: false, since: o.since || 0 };
 }
 
 const B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';

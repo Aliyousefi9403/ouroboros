@@ -6,7 +6,8 @@ scores every frontier position as
 
     discounted reward collected so far  +  gamma^depth * V(position)
 
-and keeps the best ``width`` positions per level. An action's value is the
+(with V discounted by hunger, see ``Planner._hungry``) and keeps the best
+``width`` positions per level. An action's value is the
 maximum over every leaf beneath it: finished lines, positions that dropped out
 of the beam, and the final frontier. ``V`` is pluggable: the
 full-board network's own value estimate, or a hand-written heuristic for the
@@ -42,8 +43,9 @@ def food_distance_value(gamma: float) -> ValueFn:
 
 
 class Planner:
-    def __init__(self, value_fn: ValueFn, budget: int, gamma: float = 0.97):
+    def __init__(self, value_fn: ValueFn, budget: int, gamma: float = 0.97, patience: int | None = None):
         self.value_fn, self.budget, self.gamma = value_fn, budget, gamma
+        self.patience = patience     # foodless moves before a stall; None = 2 * board area
         self.width, self.depth = beam_shape(budget)
         self.nodes_used = 0          # simulated moves in the last call (all games)
 
@@ -75,7 +77,8 @@ class Planner:
             live = np.nonzero(kids.alive)[0]
             score = np.full(g_n * 3 * k, -np.inf)
             if live.size:
-                score[live] = kret[live] + gamma ** (d + 1) * self.value_fn(kids.take(live))
+                leaves = kids.take(live)
+                score[live] = kret[live] + gamma ** (d + 1) * self._hungry(self.value_fn(leaves), leaves)
             if d == self.depth - 1 or not live.size:
                 np.maximum.at(best, (game[live], kfirst[live]), score[live])
                 break
@@ -92,6 +95,15 @@ class Planner:
             np.maximum.at(best, (game[pruned], kfirst[pruned]), score[pruned])
             ret, first = kret[flat], kfirst[flat]
         return best
+
+    def _hungry(self, v: np.ndarray, s: State) -> np.ndarray:
+        """Model the stall rule. The value estimate knows nothing about how long
+        the snake has gone without food, so on its own a search can hover beside
+        the food forever. A position's future is worth less the closer it is to
+        a stall: positive values are scaled by the fraction of patience left."""
+        patience = self.patience or 2 * s.size * s.size
+        left = np.clip(1.0 - s.since / patience, 0.0, 1.0)
+        return np.where(v > 0, v * left, v)
 
     def __call__(self, root: State) -> np.ndarray:
         return self.scores(root).argmax(axis=1)

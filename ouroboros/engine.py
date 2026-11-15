@@ -206,7 +206,7 @@ def to_json(s: State, i: int = 0) -> dict:
     """One game as plain JSON (the format docs/js/engine.js ``fromJSON`` reads)."""
     return {
         "size": s.size, "ttl": s.ttl[i].tolist(), "head": int(s.head[i]), "dir": int(s.dir[i]),
-        "length": int(s.length[i]), "food": int(s.food[i]), "rng": int(s.rng[i]),
+        "length": int(s.length[i]), "food": int(s.food[i]), "rng": int(s.rng[i]), "since": int(s.since[i]),
     }
 
 
@@ -214,4 +214,5 @@ def from_json(o: dict) -> State:
     s = reset([0], o["size"])
     s.ttl[0] = o["ttl"]
     s.head[0], s.dir[0], s.length[0], s.food[0], s.rng[0] = o["head"], o["dir"], o["length"], o["food"], o["rng"]
+    s.since[0] = o.get("since", 0)
     return s

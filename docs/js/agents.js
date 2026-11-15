@@ -174,7 +174,7 @@ export function beamShape(budget) {
 
 /** Returns { scores: [3], action, nodes, depth, line } where `line` is the action
  *  sequence leading to the best leaf (for drawing the plan). */
-export function plan(valueFn, st, budget, gamma = 0.97) {
+export function plan(valueFn, st, budget, gamma = 0.97, patience = 2 * st.size * st.size) {
   const [width, depth] = beamShape(budget);
   const best = [-Infinity, -Infinity, -Infinity];
   const bestLine = [null, null, null];
@@ -193,7 +193,10 @@ export function plan(valueFn, st, budget, gamma = 0.97) {
           record(first, node.ret + Math.pow(gamma, d) * (next.won ? 1 : -1), line);
         } else {
           const ret = node.ret + (next.ate ? Math.pow(gamma, d) : 0);
-          kids.push({ st: next, ret, first, line, score: ret + Math.pow(gamma, d + 1) * valueFn(next) });
+          // Hunger: a position is worth less the closer it is to a stall (see search.py).
+          let v = valueFn(next);
+          if (v > 0) v *= Math.max(0, 1 - next.since / patience);
+          kids.push({ st: next, ret, first, line, score: ret + Math.pow(gamma, d + 1) * v });
         }
       }
     }

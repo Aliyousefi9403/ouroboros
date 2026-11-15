@@ -23,7 +23,7 @@ import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
 GAMMA = 0.97
-BUDGETS = (30, 100, 300, 1000)
+BUDGETS = (12, 30, 100, 300, 1000)
 
 
 def make_policy(kind: str, budget: int):
