@@ -1,0 +1,256 @@
+{
+ "config": {
+  "total_steps": 6000000,
+  "n_envs": 128,
+  "batch": 256,
+  "lr": 0.0005,
+  "lr_final": 5e-05,
+  "gamma": 0.97,
+  "eps_fraction": 0.25,
+  "eval_every": 200000,
+  "size": 10,
+  "seed": 0
+ },
+ "history": [
+  {
+   "steps": 200064,
+   "eps": 0.868,
+   "val_mean_score": 2.05,
+   "val_max_score": 13,
+   "loss": 0.00075,
+   "minutes": 1.2
+  },
+  {
+   "steps": 400000,
+   "eps": 0.736,
+   "val_mean_score": 2.48,
+   "val_max_score": 11,
+   "loss": 0.00195,
+   "minutes": 2.5
+  },
+  {
+   "steps": 600064,
+   "eps": 0.604,
+   "val_mean_score": 14.51,
+   "val_max_score": 29,
+   "loss": 0.00585,
+   "minutes": 3.9
+  },
+  {
+   "steps": 800000,
+   "eps": 0.472,
+   "val_mean_score": 14.09,
+   "val_max_score": 27,
+   "loss": 0.00813,
+   "minutes": 5.2
+  },
+  {
+   "steps": 1000064,
+   "eps": 0.34,
+   "val_mean_score": 14.21,
+   "val_max_score": 35,
+   "loss": 0.00873,
+   "minutes": 6.6
+  },
+  {
+   "steps": 1200000,
+   "eps": 0.208,
+   "val_mean_score": 23.57,
+   "val_max_score": 35,
+   "loss": 0.01002,
+   "minutes": 8.0
+  },
+  {
+   "steps": 1400064,
+   "eps": 0.076,
+   "val_mean_score": 23.77,
+   "val_max_score": 40,
+   "loss": 0.01064,
+   "minutes": 9.3
+  },
+  {
+   "steps": 1600000,
+   "eps": 0.01,
+   "val_mean_score": 24.45,
+   "val_max_score": 37,
+   "loss": 0.01222,
+   "minutes": 10.6
+  },
+  {
+   "steps": 1800064,
+   "eps": 0.01,
+   "val_mean_score": 26.92,
+   "val_max_score": 41,
+   "loss": 0.01318,
+   "minutes": 12.7
+  },
+  {
+   "steps": 2000000,
+   "eps": 0.01,
+   "val_mean_score": 29.09,
+   "val_max_score": 42,
+   "loss": 0.0141,
+   "minutes": 19.8
+  },
+  {
+   "steps": 2200064,
+   "eps": 0.01,
+   "val_mean_score": 30.42,
+   "val_max_score": 47,
+   "loss": 0.01455,
+   "minutes": 21.4
+  },
+  {
+   "steps": 2400000,
+   "eps": 0.01,
+   "val_mean_score": 29.88,
+   "val_max_score": 46,
+   "loss": 0.01458,
+   "minutes": 22.6
+  },
+  {
+   "steps": 2600064,
+   "eps": 0.01,
+   "val_mean_score": 29.41,
+   "val_max_score": 49,
+   "loss": 0.0152,
+   "minutes": 24.0
+  },
+  {
+   "steps": 2800000,
+   "eps": 0.01,
+   "val_mean_score": 32.91,
+   "val_max_score": 49,
+   "loss": 0.01535,
+   "minutes": 25.3
+  },
+  {
+   "steps": 3000064,
+   "eps": 0.01,
+   "val_mean_score": 32.51,
+   "val_max_score": 50,
+   "loss": 0.0159,
+   "minutes": 26.7
+  },
+  {
+   "steps": 3200000,
+   "eps": 0.01,
+   "val_mean_score": 33.05,
+   "val_max_score": 50,
+   "loss": 0.01609,
+   "minutes": 28.0
+  },
+  {
+   "steps": 3400064,
+   "eps": 0.01,
+   "val_mean_score": 33.66,
+   "val_max_score": 50,
+   "loss": 0.01642,
+   "minutes": 29.3
+  },
+  {
+   "steps": 3600000,
+   "eps": 0.01,
+   "val_mean_score": 33.72,
+   "val_max_score": 50,
+   "loss": 0.01714,
+   "minutes": 30.7
+  },
+  {
+   "steps": 3800064,
+   "eps": 0.01,
+   "val_mean_score": 35.32,
+   "val_max_score": 61,
+   "loss": 0.01716,
+   "minutes": 32.1
+  },
+  {
+   "steps": 4000000,
+   "eps": 0.01,
+   "val_mean_score": 35.38,
+   "val_max_score": 53,
+   "loss": 0.01745,
+   "minutes": 33.5
+  },
+  {
+   "steps": 4200064,
+   "eps": 0.01,
+   "val_mean_score": 38.19,
+   "val_max_score": 57,
+   "loss": 0.0175,
+   "minutes": 35.0
+  },
+  {
+   "steps": 4400000,
+   "eps": 0.01,
+   "val_mean_score": 36.88,
+   "val_max_score": 59,
+   "loss": 0.01769,
+   "minutes": 36.3
+  },
+  {
+   "steps": 4600064,
+   "eps": 0.01,
+   "val_mean_score": 38.1,
+   "val_max_score": 55,
+   "loss": 0.01797,
+   "minutes": 37.8
+  },
+  {
+   "steps": 4800000,
+   "eps": 0.01,
+   "val_mean_score": 36.95,
+   "val_max_score": 59,
+   "loss": 0.01772,
+   "minutes": 39.1
+  },
+  {
+   "steps": 5000064,
+   "eps": 0.01,
+   "val_mean_score": 37.76,
+   "val_max_score": 57,
+   "loss": 0.01818,
+   "minutes": 40.4
+  },
+  {
+   "steps": 5200000,
+   "eps": 0.01,
+   "val_mean_score": 38.72,
+   "val_max_score": 58,
+   "loss": 0.01742,
+   "minutes": 41.7
+  },
+  {
+   "steps": 5400064,
+   "eps": 0.01,
+   "val_mean_score": 36.74,
+   "val_max_score": 59,
+   "loss": 0.0173,
+   "minutes": 43.0
+  },
+  {
+   "steps": 5600000,
+   "eps": 0.01,
+   "val_mean_score": 39.19,
+   "val_max_score": 65,
+   "loss": 0.01724,
+   "minutes": 44.4
+  },
+  {
+   "steps": 5800064,
+   "eps": 0.01,
+   "val_mean_score": 39.06,
+   "val_max_score": 58,
+   "loss": 0.01758,
+   "minutes": 45.8
+  },
+  {
+   "steps": 6000000,
+   "eps": 0.01,
+   "val_mean_score": 38.09,
+   "val_max_score": 58,
+   "loss": 0.01801,
+   "minutes": 47.1
+  }
+ ]
+}
