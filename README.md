@@ -4,7 +4,7 @@
 
 [![tests](https://github.com/Aliyousefi9403/ouroboros/actions/workflows/tests.yml/badge.svg)](https://github.com/Aliyousefi9403/ouroboros/actions/workflows/tests.yml)
 
-**[Play it in your browser →](https://aliyousefi9403.github.io/ouroboros/)**
+**[Play it in your browser →](https://aliyousefi9403.github.io/ouroboros/)** · **[Watch the 45-second demo](https://aliyousefi9403.github.io/ouroboros/assets/demo.mp4)**
 
 ![A mined trap: the food is to the right, the reflex agent goes right, and the proof row shows that move is dead in 9 while left is safe](docs/assets/arena.png)
 
