@@ -124,12 +124,12 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 60px
 .trap p { font-size: 13px; color: var(--ink2); margin: 0; justify-self: start; }
 
 /* experiment */
-.exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
 @media (max-width: 900px) { .exp-grid { grid-template-columns: 1fr; } }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 18px; }
 .tile b { display: block; font: 600 34px var(--mono); color: var(--ink); letter-spacing: -.02em; }
 .tile span { color: var(--ink2); font-size: 14px; }
-.chart-title { font-size: 16px; font-weight: 600; margin: 0 0 2px; color: var(--ink); text-transform: none; letter-spacing: 0; }
+.card h2.chart-title { font-size: 16px; font-weight: 600; margin: 0 0 2px; color: var(--ink); text-transform: none; letter-spacing: 0; }
 .chart-sub { color: var(--ink3); font-size: 13px; margin: 0 0 10px; }
 .chart svg { width: 100%; height: auto; display: block; overflow: visible; }
 .chart text { font-family: var(--sans); fill: var(--ink2); font-size: 12px; }

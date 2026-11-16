@@ -6,7 +6,7 @@
 
 **[Play it in your browser →](https://aliyousefi9403.github.io/ouroboros/)**
 
-![The arena: the reflex agent has just walked into a trap and the proof engine has found the fatal move](docs/assets/arena.png)
+![A mined trap: the food is to the right, the reflex agent goes right, and the proof row shows that move is dead in 9 while left is safe](docs/assets/arena.png)
 
 In Snake, the snake changes the maze every time it moves. Its body can seal an
 exit, and its retreating tail can open one. Sometimes the best move is to turn
@@ -39,7 +39,51 @@ never used in training):
 | **Full board + search** | the whole grid | *B* simulated moves, ranked by its own value estimate |
 | **Search only** | no learning at all | the same *B* simulated moves, ranked by a distance heuristic |
 
-<!-- RESULTS -->
+## The answer
+
+Mean score over 200 held-out games on a 10x10 board (score = food eaten, 97 fills the board):
+
+| Agent | Budget | Mean score | 95% CI | Median | Best |
+|---|---:|---:|---:|---:|---:|
+| Reflex (11 inputs) | - | **19.2** | 18.2 to 20.1 | 19 | 42 |
+| Full board | - | **38.4** | 37.0 to 39.7 | 38 | 61 |
+| Full board + search | 12 | **48.8** | 47.5 to 50.0 | 50 | 71 |
+| Full board + search | 30 | **50.6** | 49.3 to 52.0 | 50 | 73 |
+| Full board + search | 100 | **54.9** | 53.4 to 56.2 | 54 | 80 |
+| Full board + search | 300 | **62.1** | 60.2 to 64.0 | 61 | 97 |
+| Full board + search | 1000 | **67.4** | 65.4 to 69.3 | 66 | 97 |
+| Search only | 12 | **20.3** | 19.3 to 21.2 | 20 | 45 |
+| Search only | 30 | **22.4** | 21.6 to 23.2 | 22 | 37 |
+| Search only | 100 | **27.3** | 26.5 to 28.2 | 27 | 44 |
+| Search only | 300 | **35.5** | 34.5 to 36.6 | 35 | 55 |
+| Search only | 1000 | **43.3** | 41.8 to 44.9 | 42 | 97 |
+
+Three things stand out:
+
+- **Seeing the board doubles the score.** With no lookahead at all, replacing 11
+  inputs with the full grid takes the mean from 19.2 to 38.4.
+- **A little thinking goes a long way, if the value estimate is good.** Just 12
+  simulated moves per decision add another 10 points, and 1000 take the agent to
+  67.4. At that budget it fills the entire board in 9 of 200 games.
+- **Search without learning is expensive.** The learning-free planner needs 1000
+  simulated moves to reach 43.3. The learned planner beats that with 12.
+
+![Results](docs/assets/experiment.png)
+
+The two-board puzzles show *why* the reflex agent plateaus. Both boards below
+give it the same 11 numbers, so it must play the same move on both, and no move
+survives both. Mining 16,000 positions from real games turned up 31 distinct
+observations with a proven pair like this, and 101 positions where the reflex
+agent's own move is provably fatal while another move is provably not.
+
+![Two-board puzzle](docs/assets/puzzles.png)
+
+One finding from building it: a shallow search over a learned value function can
+hover next to the food forever, because the network slightly overvalues "about
+to eat" and cannot see how long the snake has gone hungry. Before the planner
+modelled the stall rule, a 30-move budget scored *below* the plain network (33
+against 38). With it, the same budget scores 50.6. See `Planner._hungry` in
+[`ouroboros/search.py`](ouroboros/search.py).
 
 ## What is in here
 

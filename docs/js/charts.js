@@ -23,7 +23,7 @@ function barChart(rows, maxV) {
 }
 
 function lineChart(series, refs, budgets, maxV) {
-  const W = 520, H = 300, left = 40, right = 120, top = 10, bottom = 34;
+  const W = 520, H = 300, left = 40, right = 150, top = 10, bottom = 34;
   const lx = (b) => Math.log(b), x0 = lx(budgets[0]), x1 = lx(budgets[budgets.length - 1]);
   const x = (b) => left + ((lx(b) - x0) / (x1 - x0 || 1)) * (W - left - right);
   const y = (v) => top + (1 - v / maxV) * (H - top - bottom);
